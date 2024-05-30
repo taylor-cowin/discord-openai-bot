@@ -10,7 +10,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-monitor_channel="chatgpt-under-construction"
+monitor_channel="chatgpt-bot"
 channel_id = 1242325275119714324
 
 '''
