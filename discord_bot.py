@@ -10,8 +10,8 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-monitor_channel="chatgpt-bot"
-channel_id = 1242325275119714324
+monitor_channel="chatgpt-bot-dev"
+channel_id = 1247893256386117704
 
 '''
 ****************************
@@ -23,17 +23,16 @@ def ensure_logger():
     global logger
     if logger is None:
         logger = logging.getLogger(__name__)
-        logging.basicConfig(filename='chatgpt-discord-bot.log', level=logging.INFO,
+        logging.basicConfig(filename='chatgpt-discord-bot.log', level=logging.DEBUG,
                             format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 def send_message(_msg):
-        channel=discord_client.get_channel(1242325275119714324)
+        channel=discord_client.get_channel(channel_id)
         asyncio.create_task(channel.send(_msg))
         return
     
 def check_for_responses():
     #TODO
-    #This is wrong -- this is going to reset every time this code loops
     #If there are any responses, they need to be sent
     response_list = main.check_for_responses(main.read_queue_file(), "disc") #Gets list of questions with responses
     for response_item in response_list:
