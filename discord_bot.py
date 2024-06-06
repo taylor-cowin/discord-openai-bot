@@ -1,3 +1,9 @@
+###################
+###################
+###### DEV ########
+###################
+###################
+
 import discord
 import logging
 import time
@@ -62,8 +68,6 @@ def add_to_queue(message: str):
     openai_handler.check_for_pending_queue()
 
 ##TODO Writes text to a specified channel, with option to @ a user            
-#async def bot_chat_to_channel(self, channel: discord.channel, content: str, tagged_user: discord.User):
-#    await message.channel.send(vomit)
 
 #Listens for incoming message and makes sure it wasn't the bot talking
 @client.event

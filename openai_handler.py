@@ -1,3 +1,9 @@
+###################
+###################
+###### DEV ########
+###################
+###################
+
 import logging
 from openai import OpenAI
 import os
@@ -12,7 +18,8 @@ thread = None
 gpt_client = OpenAI()
 #logger.debug(f"gpt_client: {gpt_client}")
 
-thread = gpt_client.beta.threads.create()
+#thread = gpt_client.beta.threads.create()
+
 #logger.debug(f"thread: {thread}")
 
 '''
@@ -32,27 +39,21 @@ def ask_chatgpt(question_dict):
     ensure_logger()
     #Global thread for now -- need to add threads per user or command to start a new thread
     logger.debug(f"Asking ChatGPT: {question_dict}")
-    message = gpt_client.beta.threads.messages.create(
-        thread_id=thread.id,
-        role="user",
-        content=question_dict["contents"],
-    )
-    logger.debug(f"Message: {message}")
-    run = gpt_client.beta.threads.runs.create_and_poll(
-        thread_id=thread.id,
-        assistant_id="asst_OwecXmYfxxNB5J8tVi8V7l8O",
-        instructions="Please address the user as " + str(question_dict["author"]),
-    )
+    
+    message = gpt_client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {"role": "system", "content": "You are a very knowledgeable and helpful, but rude, assistant. You frequently belittle people in your responses and you make them feel inadequate."},
+            {"role": "user", "content": question_dict["contents"]}
+        ])
 
-    logger.debug(f"ChatGPT Run: {run.status}")
-
-    if run.status == "completed":
-        messages = gpt_client.beta.threads.messages.list(thread_id=thread.id)
-        for message in messages:
-            if message.content[0].type == "text":
-                response = message.content[0].text.value
-                logger.debug(f"Received response from OpenAI: {response}")
-                return response
+    if message is not None:
+        logger.debug(f"Message: {message}")
+        if message['choices'][0]['text'] is not None:
+            response = message['choices'][0]['text']
+            logger.debug(f"Received response from OpenAI: {response}")
+            return response
+        logger.debug(f"Message: {message}")    
    
 def create_active_queue(incoming_json_list_of_dicts):
     return main.check_for_responses(incoming_json_list_of_dicts, "gpt")
