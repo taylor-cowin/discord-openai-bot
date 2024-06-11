@@ -24,7 +24,7 @@ channel_id = 1247893256386117704
 SANITIZE YOUR FUCKING INPUTS
 ****************************
 '''
-#AHHREALMONSTERS
+
 def ensure_logger():
     global logger
     if logger is None:
