@@ -26,6 +26,7 @@ SANITIZE YOUR FUCKING INPUTS
 '''
 
 ##TEST COMMIT##
+##NUMBER TWO##
 
 def ensure_logger():
     global logger
